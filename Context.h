@@ -7,9 +7,10 @@ class Context
 private:
     IExplorer *p;
 public:
+    Context() = default;
     explicit Context(IExplorer* strategy);
      ~Context();
-    void explore(const QString& path);
+    QList<Data> explore(const QString& path);
     void setStrategy(IExplorer* strategy);
 };
 

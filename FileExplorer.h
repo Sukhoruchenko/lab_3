@@ -3,11 +3,12 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
+#include "SomeData.h"
 
 class IExplorer
 {
 public:
-    virtual void explore(const QString& path) = 0;
+    virtual QList<Data> explore(const QString& path) = 0;
     virtual ~IExplorer() {}
 };
 

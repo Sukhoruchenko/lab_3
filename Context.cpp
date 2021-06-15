@@ -6,10 +6,11 @@ Context::~Context()
 Context::Context(IExplorer* strategy) : p(strategy) {}
 
 
-void Context::explore(const QString& path)
+QList<Data> Context::explore(const QString& path)
 {
     if (p)
-    p->explore(path);
+        return p->explore(path);
+    return QList<Data>();
 }
 
 void Context::setStrategy(IExplorer* strategy)
