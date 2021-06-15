@@ -1,4 +1,5 @@
-QT -= gui
+QT += gui
+QT += widgets
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -8,7 +9,9 @@ CONFIG -= app_bundle
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        BrowserModel.cpp \
         Context.cpp \
+        Form.cpp \
         GroupingByFolder.cpp \
         GroupingByType.cpp \
         main.cpp
@@ -19,7 +22,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    BrowserModel.h \
     Context.h \
     FileExplorer.h \
+    Form.h \
     GroupingByFolder.h \
-    GroupingByType.h
+    GroupingByType.h \
+    SomeData.h
+
+FORMS += \
+    Form.ui
