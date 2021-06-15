@@ -57,39 +57,40 @@ QMap<QString, double> GroupingByFolder::getFoldersByPercentage(qint64& fullSize,
 
 QMap<QString, qint64> GroupingByFolder::getSizesFolders(QString path) const
 {
-    QFileInfo folder(path);
+    QFileInfo folders(path);
     QMap<QString, qint64> FoldersList;
-    auto fullPathDirectory = folder.absoluteFilePath();
-    FoldersList.insert(fullPathDirectory, getSizeDirectory(fullPathDirectory));
-    for (auto x : QDir(path).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden, QDir::Name | QDir::Type))
+    auto FullPathDir = folders.absoluteFilePath();
+    FoldersList.insert(FullPathDir,getSizeDirectory(FullPathDir));
+    for (auto t : QDir(path).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden, QDir::Name | QDir::Type))
     {
-        auto fullPath = x.absoluteFilePath();
-        FoldersList.insert(fullPath, GroupingByFolder::getSize(fullPath));
+        auto FullPath = t.absoluteFilePath();
+        FoldersList.insert(FullPath, GroupingByFolder::getSize(FullPath));
     }
-    return FoldersList;
+        return FoldersList;
 }
 
-void GroupingByFolder::Print(const QMap<QString, qint64>& FoldersAndTypes, const  QMap<QString, double> FoldersAndPercentage) const
-{
-    QTextStream cout(stdout);
-    foreach(QString path, FoldersAndPercentage.keys())
-    {
-        double percent = FoldersAndPercentage.value(path);
-        cout << qSetFieldWidth(25) << path << qSetFieldWidth(10)  << FoldersAndTypes.value(path) / 1024 << qSetFieldWidth(5)<< "KB";
-        if (percent < 0 || percent == 0)
-        {
-             cout << qSetFieldWidth(10) << "  < 0.01 %\n";
-        }
-        else
-             cout << qSetFieldWidth(10) << QString::number(percent, 'f', 2).append(" %") << "\n";
-     }
-}
-
-void GroupingByFolder::explore(const QString& path)
+QList<Data> GroupingByFolder::explore(const QString& path)
 {
     auto FoldersList = getSizesFolders(path);
     auto fullSize = getSumSize(FoldersList);
     auto FoldersByPercentage = getFoldersByPercentage(fullSize, FoldersList);
-    Print(FoldersList, FoldersByPercentage);
+    QList<Data> data;
+    QList<QPair<double, QString>> PercentList;
+    for (auto p : FoldersByPercentage.keys())
+    {
+      PercentList.append(QPair<double, QString>(FoldersByPercentage[p], p));
+    }
+    for (auto x : PercentList)
+    {
+        if (x.first < 0)
+        {
+            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString("< 0.01 %")));
+        }
+        else
+        {
+            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString::number(x.first, 'f', 2).append(" %")));
+        }
+    }
+    return data;
 }
 

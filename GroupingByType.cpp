@@ -70,28 +70,28 @@ QMap<QString, double> GroupingByType::getTypesFilesByPercentage(qint64& fullSize
     return FileTypesListPercentage;
 }
 
-void GroupingByType::Print(const QMap<QString, qint64>& FileTypesList, const  QMap<QString, double> FileTypesPercantage) const
-{
-    QTextStream cout(stdout);
-    foreach(QString path, FileTypesPercantage.keys())
-        {
-            double percent = FileTypesPercantage.value(path);
-            cout << qSetFieldWidth(25) << path << qSetFieldWidth(10)  << FileTypesList.value(path) / 1024 << qSetFieldWidth(5)<< "KB";
-            if (percent < 0 || percent == 0)
-            {
-               cout << qSetFieldWidth(10) << "  < 0.01 %\n";
-            }
-            else
-               cout << qSetFieldWidth(10) << QString::number(percent, 'f', 2).append(" %") << "\n";
-        }
-}
-
-void GroupingByType::explore(const QString& path)
+QList<Data> GroupingByType::explore(const QString& path)
 {
     QMap<QString, qint64> fileTypesList;
     getTypesAndSizesFiles(path, fileTypesList);
     auto fullSize = getSumSize(fileTypesList);
     auto fileTypesByPercantage = getTypesFilesByPercentage(fullSize, fileTypesList);
-    Print(fileTypesList, fileTypesByPercantage);
+    QList<Data> data;
+    QList<QPair<double, QString>> TypeList;
+    for (auto p : fileTypesByPercantage.keys())
+    {
+      TypeList.append(QPair<double, QString>(fileTypesByPercantage[p], p));
+    }
+    for (auto x : TypeList)
+    {
+        if (x.first < 0)
+        {
+            data.append(Data(x.second, QString::number(fileTypesList.value(x.second)), QString("< 0.01 %")));
+        } else
+        {
+        data.append(Data("." + x.second, QString::number(fileTypesList.value(x.second)), QString::number(x.first, 'f', 2).append(" %")));
+        }
+    }
+    return data;
 }
 
