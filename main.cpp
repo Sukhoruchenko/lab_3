@@ -1,24 +1,17 @@
+#include "Form.h"
 #include <iostream>
 #include "Context.h"
+#include <QApplication>
 #include "FileExplorer.h"
 #include "GroupingByType.h"
 #include "GroupingByFolder.h"
-#include <QCoreApplication>
 
-QTextStream cout(stdout), cin(stdin);
-
-int main()
+int main(int argc, char *argv[])
 {
-    IExplorer* f = new GroupingByFolder();
-    Context* e = new Context(f);
-    cout << "Enter path folder:" << Qt::endl;
-    QString path;
-    path = cin.readLine();
-    e->explore(path);
-    f = new GroupingByType();
-    e->setStrategy(f);
-    e->explore(path);
-    delete f;
-    delete e;
-    return 0;
+    QApplication a(argc, argv);
+    Form t;
+    t.show();
+
+    return a.exec();
 }
+
