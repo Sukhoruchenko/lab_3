@@ -15,5 +15,7 @@ QList<Data> Context::explore(const QString& path)
 
 void Context::setStrategy(IExplorer* strategy)
 {
+    if (p)
+        delete p;
     p = strategy;
 }
