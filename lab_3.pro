@@ -1,4 +1,4 @@
-QT += gui
+QT += core gui charts
 QT += widgets
 
 CONFIG += c++11 console
@@ -11,9 +11,11 @@ CONFIG -= app_bundle
 SOURCES += \
         BrowserModel.cpp \
         Context.cpp \
+        Drawing.cpp \
         Form.cpp \
         GroupingByFolder.cpp \
         GroupingByType.cpp \
+        Observation.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -24,11 +26,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     BrowserModel.h \
     Context.h \
-    FileExplorer.h \
+    Data.h \
+    Drawing.h \
+    FileBrowser.h \
     Form.h \
     GroupingByFolder.h \
     GroupingByType.h \
-    SomeData.h
+    Observation.h
 
 FORMS += \
     Form.ui
