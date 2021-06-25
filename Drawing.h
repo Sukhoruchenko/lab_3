@@ -7,7 +7,7 @@
 #include <QBarSeries>
 #include <QPieSeries>
 #include <QChartView>
-#include "FileObserver.h"
+#include "FileExplorer.h"
 #include <QGraphicsLayout>
 #include <QtCharts/QChartGlobal>
 #include <QtCharts/QAbstractSeries>
