@@ -70,14 +70,15 @@ QMap<QString, double> GroupingByType::getTypesFilesByPercentage(qint64& fullSize
     return FileTypesListPercentage;
 }
 
-QList<Data> GroupingByType::explore(const QString& path)
+void GroupingByType::explore(const QString& path)
 {
+    QList<Data> data;
+    QList<QPair<double, QString>> TypeList;
     QMap<QString, qint64> fileTypesList;
     getTypesAndSizesFiles(path, fileTypesList);
     auto fullSize = getSumSize(fileTypesList);
     auto fileTypesByPercantage = getTypesFilesByPercentage(fullSize, fileTypesList);
-    QList<Data> data;
-    QList<QPair<double, QString>> TypeList;
+
     for (auto p : fileTypesByPercantage.keys())
     {
       TypeList.append(QPair<double, QString>(fileTypesByPercantage[p], p));
@@ -86,12 +87,13 @@ QList<Data> GroupingByType::explore(const QString& path)
     {
         if (x.first < 0)
         {
-            data.append(Data(x.second, QString::number(fileTypesList.value(x.second)), QString("< 0.01 %")));
+            data.append(Data(x.second, QString::number(fileTypesList.value(x.second)), QString("< 0.01 %"),(qreal)fileTypesList.value(x.second)/ fullSize));
+
         } else
         {
-        data.append(Data("." + x.second, QString::number(fileTypesList.value(x.second)), QString::number(x.first, 'f', 2).append(" %")));
+            data.append(Data("." + x.second, QString::number(fileTypesList.value(x.second)), QString::number(x.first, 'f', 2).append(" %"),(qreal)fileTypesList.value(x.second)/ fullSize));
         }
     }
-    return data;
+    Finish(QList<Data>(data));
 }
 

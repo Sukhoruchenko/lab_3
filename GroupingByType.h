@@ -2,12 +2,12 @@
 #define GROUPINGBYTYPE_H
 #include "FileExplorer.h"
 
-class GroupingByType : public IExplorer
+class GroupingByType : public Browser
 {
 public:
     explicit GroupingByType() {};
     virtual ~GroupingByType() {};
-    QList<Data> explore(const QString& path);
+    void explore(const QString& path);
 private:
     qint64 getSize(QString const& path) const;
     qint64 getSumSize(const QMap<QString, qint64> sum) const;

@@ -28,7 +28,7 @@ HEADERS += \
     Context.h \
     Data.h \
     Drawing.h \
-    FileBrowser.h \
+    FileExplorer.h \
     Form.h \
     GroupingByFolder.h \
     GroupingByType.h \

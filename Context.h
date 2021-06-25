@@ -5,13 +5,13 @@
 class Context
 {
 private:
-    IExplorer *p;
+    Browser *b;
 public:
     Context() = default;
-    explicit Context(IExplorer* strategy);
-     ~Context();
-    QList<Data> explore(const QString& path);
-    void setStrategy(IExplorer* strategy);
+    explicit Context(Browser* strategy);
+    ~Context();
+    void explore(const QString& path);
+    void setStrategy(Browser* strategy);
 };
 
 #endif // CONTEXT_H

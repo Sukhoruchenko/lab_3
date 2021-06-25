@@ -2,12 +2,12 @@
 #define GROUPINGBYFOLDER_H
 #include "FileExplorer.h"
 
-class GroupingByFolder: public IExplorer
+class GroupingByFolder: public Browser
 {
 public:
     explicit GroupingByFolder() {};
     virtual ~GroupingByFolder() {};
-    QList<Data> explore(const QString& path);
+    void explore(const QString& path);
 private:
     qint64 getSizeDir(const QString& path);
     qint64 getSize(QString const& path) const;

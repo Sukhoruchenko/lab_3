@@ -1,21 +1,20 @@
 #include "Context.h"
 
 Context::~Context()
-{}
-
-Context::Context(IExplorer* strategy) : p(strategy) {}
-
-
-QList<Data> Context::explore(const QString& path)
 {
-    if (p)
-        return p->explore(path);
-    return QList<Data>();
+    if (b) delete b;
 }
 
-void Context::setStrategy(IExplorer* strategy)
+Context::Context(Browser* strategy) : b(strategy) {}
+
+
+void Context::explore(const QString& path)
 {
-    if (p)
-        delete p;
-    p = strategy;
+     b->explore(path);
+}
+
+void Context::setStrategy(Browser* strategy)
+{
+    if (b) delete b;
+    b = strategy;
 }

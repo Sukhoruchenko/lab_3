@@ -69,7 +69,7 @@ QMap<QString, qint64> GroupingByFolder::getSizesFolders(QString path) const
         return FoldersList;
 }
 
-QList<Data> GroupingByFolder::explore(const QString& path)
+void GroupingByFolder::explore(const QString& path)
 {
     auto FoldersList = getSizesFolders(path);
     auto fullSize = getSumSize(FoldersList);
@@ -84,13 +84,13 @@ QList<Data> GroupingByFolder::explore(const QString& path)
     {
         if (x.first < 0)
         {
-            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString("< 0.01 %")));
+            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString("< 0.01 %"),(qreal)FoldersList.value(x.second)/ fullSize));
         }
         else
         {
-            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString::number(x.first, 'f', 2).append(" %")));
+            data.append(Data(x.second, QString::number(FoldersList.value(x.second)), QString::number(x.first, 'f', 2).append(" %"),(qreal)FoldersList.value(x.second)/ fullSize));
         }
     }
-    return data;
+    Finish(QList<Data>(data));
 }
 
