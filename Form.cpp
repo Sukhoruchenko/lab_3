@@ -23,8 +23,9 @@ Form::Form(QMainWindow *parent) : QMainWindow(parent), ui(new Ui::Form),folder(n
     fModel->setRootPath(homePath);
 
     ObservationAdapter = new Observation(ui->stackedWidget_7->layout());
-    bar = new BarDrawing(ui->stackedWidget_7->layout());
     pie = new PieDrawing(ui->stackedWidget_7->layout());
+    bar = new BarDrawing(ui->stackedWidget_7->layout());
+
     View = ObservationAdapter;
     group->Fix(View);
 

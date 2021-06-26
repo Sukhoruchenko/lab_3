@@ -18,19 +18,32 @@ public:
 class Browser
 {
 private:
-    FileObserver* observer;
+    QList<FileObserver* > observer;
 public:
-    virtual ~Browser() {}
+    virtual ~Browser()
+    {
+        for (auto i : observer)
+            delete i;
+    }
     virtual void explore(const QString& path) = 0;
 
     void Fix(FileObserver* o)
     {
-        if (o) observer = o;
+        if (o && !observer.contains(o))
+        {
+            observer.push_back(o);
+        }
+    }
+
+    void unFix(FileObserver* o)
+    {
+        observer.removeOne(o);
     }
 
     void Finish(const QList<Data>& d) const
     {
-        observer->Update(d);
+        for(auto i : observer)
+            i->Update(d);
     }
 };
 
